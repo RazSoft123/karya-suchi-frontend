@@ -1,3 +1,5 @@
+import TaskCard from "../../components/task/TaskCard";
+
 export default function Tasks() {
   return (
     <main className="font-inter px-4 py-4 max-h-dvh overflow-scroll">
@@ -7,6 +9,9 @@ export default function Tasks() {
           <p className="font-inter text-sm text-slate-600">
             You have 6 tasks due today, 2 overdue tasks, 3 upcoming deadlines
           </p>
+        </section>
+        <section>
+          <TaskCard />
         </section>
       </div>
     </main>
