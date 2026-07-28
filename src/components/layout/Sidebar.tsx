@@ -1,11 +1,14 @@
 import SidebarList from "./SidebarList";
 import SidebarProfile from "./SidebarProfile";
+import { useLocation } from "react-router";
 import { ListTodo, House, NotebookPen, Grid2x2Plus } from "lucide-react";
 
 import logo from "./../../assets/img/ks-logo-128.png";
 import avatar from "./../../assets/img/panda.png";
 
 export default function Sidebar() {
+  const location = useLocation();
+
   return (
     <div className="font-inter relative w-60 border-r border-slate-300">
       <div className="px-4 py-2">
@@ -18,11 +21,26 @@ export default function Sidebar() {
             text="Dashboard"
             to="/dashboard"
             icon={House}
-            active={true}
+            active={location.pathname === "/dashboard"}
           />
-          <SidebarList text="Tasks" to="/tasks" icon={ListTodo} />
-          <SidebarList text="Notes" to="/notes" icon={NotebookPen} />
-          <SidebarList text="Workspace" to="/workspace" icon={Grid2x2Plus} />
+          <SidebarList
+            text="Tasks"
+            to="/tasks"
+            icon={ListTodo}
+            active={location.pathname === "/tasks"}
+          />
+          <SidebarList
+            text="Notes"
+            to="/notes"
+            icon={NotebookPen}
+            active={location.pathname === "/notes"}
+          />
+          <SidebarList
+            text="Workspace"
+            to="/workspace"
+            icon={Grid2x2Plus}
+            active={location.pathname === "/workspace"}
+          />
         </ul>
       </div>
       <SidebarProfile avatar={avatar} />
