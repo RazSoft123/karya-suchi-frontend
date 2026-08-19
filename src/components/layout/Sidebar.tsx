@@ -33,7 +33,7 @@ export default function Sidebar() {
             text="Notes"
             to="/notes"
             icon={NotebookPen}
-            active={location.pathname === "/notes"}
+            active={location.pathname.startsWith("/notes")}
           />
           <SidebarList
             text="Workspace"

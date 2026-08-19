@@ -4,11 +4,13 @@ import ImportantInfoCard from "../../components/common/ImportantInfoCard";
 
 import { fakeUser } from "../../fakeData";
 import { fakeAllTasks } from "../../fakeData";
-import { fakeNotes } from "../../fakeData";
 import NoteCard from "../../components/notes/NoteCard";
 import WorkspaceCard from "../../components/workspace/WorkspaceCard";
+import { useNotesQuery } from "../../queries/noteQueries";
 
 export default function Dashboard() {
+  const notesQuery = useNotesQuery();
+
   return (
     <main className="font-inter px-4 py-4 max-h-dvh overflow-scroll">
       <div className="flex flex-col gap-6">
@@ -25,7 +27,7 @@ export default function Dashboard() {
         {/* + New Task, + New Note, + New Workspace, + Start Whiteboard */}
         <section className="flex gap-8">
           <DashboardButton text="New Task" to="/workspace/task/new" />
-          <DashboardButton text="New Note" to="/workspace/note/new" />
+          <DashboardButton text="New Note" to="/notes/new" />
           <DashboardButton text="New Workspace" to="/workspace/new" />
         </section>
 
@@ -56,7 +58,7 @@ export default function Dashboard() {
             <p className="font-inter py-6 font-bold text-lg">Recent Notes</p>
           </div>
           <div className="w-full grid grid-cols-4 gap-4">
-            {fakeNotes.map((note) => (
+            {notesQuery.data?.slice(0, 4).map((note) => (
               <NoteCard key={note.id} note={note} />
             ))}
           </div>
@@ -71,8 +73,8 @@ export default function Dashboard() {
             </p>
           </div>
           <div className="w-full grid grid-cols-4 gap-4">
-            {fakeNotes.map((note) => (
-              <WorkspaceCard key={note.id} />
+            {[1, 2, 3].map((workspaceId) => (
+              <WorkspaceCard key={workspaceId} />
             ))}
           </div>
         </section>

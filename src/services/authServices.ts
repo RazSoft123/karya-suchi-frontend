@@ -1,7 +1,26 @@
 import apiClient from "./apiClient";
 
+interface AuthResponse {
+  status: string;
+  data: {
+    id?: string;
+    _id?: string;
+    name: string;
+    email: string;
+  };
+  message?: string;
+  messages?: string | string[];
+}
+
+interface MessageResponse {
+  status: string;
+  data: unknown;
+  message?: string;
+  messages?: string | string[];
+}
+
 async function login(email: string, password: string) {
-  return await apiClient("/login", {
+  return await apiClient<AuthResponse>("/login", {
     method: "POST",
     body: JSON.stringify({
       email,
@@ -11,14 +30,14 @@ async function login(email: string, password: string) {
 }
 
 async function register(name: string, email: string, password: string) {
-  return await apiClient("/register", {
+  return await apiClient<AuthResponse>("/register", {
     method: "POST",
     body: JSON.stringify({ name, email, password }),
   });
 }
 
 async function forgetPassword(email: string) {
-  return await apiClient("/forget-password", {
+  return await apiClient<MessageResponse>("/forget-password", {
     method: "POST",
     body: JSON.stringify({ email }),
   });
@@ -30,7 +49,7 @@ async function resetPassword(
   newPass: string,
   confPass: string,
 ) {
-  return await apiClient("/reset-password", {
+  return await apiClient<MessageResponse>("/reset-password", {
     method: "PUT",
     body: JSON.stringify({
       email,
@@ -44,3 +63,4 @@ async function resetPassword(
 }
 
 export { login, register, forgetPassword, resetPassword };
+export type { AuthResponse };

@@ -11,10 +11,13 @@ import DashboardLayout from "./components/layout/DashboardLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedLayouts from "./components/layout/ProtectedLayout";
 import Workspace from "./pages/workspace/Workspace";
+import NewWorkspace from "./pages/workspace/NewWorkspace";
 import FeauresPage from "./pages/FeaturesPage";
 import HelpPage from "./pages/HelpPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Notes from "./pages/notes/Notes";
+import NoteDetails from "./pages/notes/NoteDetails";
+import NewNote from "./pages/workspace/notes/NewNote";
 import Tasks from "./pages/tasks/Tasks";
 const router = createBrowserRouter([
   {
@@ -48,7 +51,10 @@ const router = createBrowserRouter([
           { path: "dashboard", Component: Dashboard },
           { path: "tasks", Component: Tasks },
           { path: "notes", Component: Notes },
+          { path: "notes/new", Component: NewNote },
+          { path: "notes/:noteId", Component: NoteDetails },
           { path: "workspace", Component: Workspace },
+          { path: "workspace/new", Component: NewWorkspace },
         ],
       },
     ],

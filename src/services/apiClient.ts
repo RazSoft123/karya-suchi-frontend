@@ -6,6 +6,11 @@ interface ApiOptions extends RequestInit {
   headers?: Record<string, string>;
 }
 
+interface ApiErrorPayload {
+  message?: string;
+  messages?: string | string[];
+}
+
 // Handling error
 export class ApiError extends Error {
   status: number;
@@ -16,10 +21,10 @@ export class ApiError extends Error {
   }
 }
 
-async function apiClient<T = any>(
+async function apiClient<T = unknown>(
   apiEndpoint: string,
   options: ApiOptions = {},
-) {
+): Promise<T> {
   const url = `${BASE_URL}${apiEndpoint}`;
 
   const headers = {
@@ -27,15 +32,27 @@ async function apiClient<T = any>(
     ...options.headers,
   };
 
-  const config = { ...options, headers };
+  const config: RequestInit = {
+    credentials: "include",
+    ...options,
+    headers,
+  };
   try {
     const response = await fetch(url, config);
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      const errorMessage =
-        errorData.messages || `HTTP error! Status: ${response.status}`;
+      const errorData = (await response
+        .json()
+        .catch(() => ({}))) as ApiErrorPayload;
+      const serverMessage = errorData.messages ?? errorData.message;
+      const errorMessage = Array.isArray(serverMessage)
+        ? serverMessage.join(" ")
+        : serverMessage || `HTTP error! Status: ${response.status}`;
       throw new ApiError(errorMessage, response.status);
+    }
+
+    if (response.status === 204) {
+      return undefined as T;
     }
 
     return response.json() as Promise<T>;

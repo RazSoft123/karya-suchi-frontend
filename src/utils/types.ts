@@ -24,12 +24,19 @@ interface Task {
   workspace?: string;
 }
 
+interface Workspace {
+  id: string;
+  name: string;
+  description?: string;
+}
+
 interface Note {
   id: string;
   title: string;
   content?: string;
   createdAt: string;
-  workspace?: string;
+  updatedAt?: string;
+  workspace?: Workspace | string;
 }
 
-export type { User, AuthState, Task, Note };
+export type { User, AuthState, Task, Workspace, Note };

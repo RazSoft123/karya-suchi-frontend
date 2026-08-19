@@ -1,25 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../services/authServices";
 import { useAuthStore } from "../store/authStore";
+import type { User } from "../utils/types";
 
 interface LoginCredentials {
   email: string;
   password: string;
 }
 
-interface LoginResponse {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  message?: string;
-}
-
 export const useLoginMutation = () => {
   const authStore = useAuthStore();
 
-  return useMutation<LoginResponse, Error, LoginCredentials>({
+  return useMutation<User, Error, LoginCredentials>({
     mutationFn: async (credentials: LoginCredentials) => {
       const response = await login(credentials.email, credentials.password);
 
@@ -27,12 +19,21 @@ export const useLoginMutation = () => {
         throw new Error("Invalid response from server");
       }
 
-      return response as LoginResponse;
+      const id = response.data.id ?? response.data._id;
+      if (!id) {
+        throw new Error("The server response did not include a user id");
+      }
+
+      return {
+        id,
+        name: response.data.name,
+        email: response.data.email,
+      };
     },
 
-    onSuccess: (data) => {
+    onSuccess: (user) => {
       // Store user data in auth store
-      authStore.setUser(data.user);
+      authStore.setUser(user);
 
       // Store auth token if available (if your API returns one)
       // localStorage.setItem("authToken", data.token);
