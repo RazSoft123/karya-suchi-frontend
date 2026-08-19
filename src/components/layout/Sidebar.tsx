@@ -27,7 +27,7 @@ export default function Sidebar() {
             text="Tasks"
             to="/tasks"
             icon={ListTodo}
-            active={location.pathname === "/tasks"}
+            active={location.pathname.startsWith("/tasks")}
           />
           <SidebarList
             text="Notes"

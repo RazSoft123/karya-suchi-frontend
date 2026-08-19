@@ -14,14 +14,19 @@ interface AuthState {
   auth: boolean;
 }
 
+type TaskStatus = "todo" | "in_progress" | "completed" | "archived";
+
 interface Task {
   id: string;
   title: string;
   description?: string;
   completed: boolean;
+  status?: TaskStatus;
   dueDate?: string;
   priority?: "high" | "medium" | "low";
-  workspace?: string;
+  workspace?: Workspace | string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Workspace {
@@ -39,4 +44,4 @@ interface Note {
   workspace?: Workspace | string;
 }
 
-export type { User, AuthState, Task, Workspace, Note };
+export type { User, AuthState, TaskStatus, Task, Workspace, Note };

@@ -19,6 +19,8 @@ import Notes from "./pages/notes/Notes";
 import NoteDetails from "./pages/notes/NoteDetails";
 import NewNote from "./pages/workspace/notes/NewNote";
 import Tasks from "./pages/tasks/Tasks";
+import NewTask from "./pages/workspace/tasks/NewTask";
+import TaskDetails from "./pages/tasks/TaskDetails";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +52,8 @@ const router = createBrowserRouter([
         children: [
           { path: "dashboard", Component: Dashboard },
           { path: "tasks", Component: Tasks },
+          { path: "tasks/new", Component: NewTask },
+          { path: "tasks/:taskId", Component: TaskDetails },
           { path: "notes", Component: Notes },
           { path: "notes/new", Component: NewNote },
           { path: "notes/:noteId", Component: NoteDetails },

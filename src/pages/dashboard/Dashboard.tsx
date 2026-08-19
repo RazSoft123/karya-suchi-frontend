@@ -3,13 +3,16 @@ import DashboardButton from "../../components/common/DashboardButton";
 import ImportantInfoCard from "../../components/common/ImportantInfoCard";
 
 import { fakeUser } from "../../fakeData";
-import { fakeAllTasks } from "../../fakeData";
 import NoteCard from "../../components/notes/NoteCard";
 import WorkspaceCard from "../../components/workspace/WorkspaceCard";
 import { useNotesQuery } from "../../queries/noteQueries";
+import { useTasksQuery } from "../../queries/taskQueries";
 
 export default function Dashboard() {
   const notesQuery = useNotesQuery();
+  const tasksQuery = useTasksQuery();
+  const activeTaskCount =
+    tasksQuery.data?.filter((task) => task.status !== "completed").length ?? 0;
 
   return (
     <main className="font-inter px-4 py-4 max-h-dvh overflow-scroll">
@@ -19,14 +22,14 @@ export default function Dashboard() {
             Good Morning, {fakeUser.name}
           </h1>
           <p className="font-inter text-sm text-slate-600">
-            You have 6 tasks due today, 2 overdue tasks, 3 upcoming deadlines
+            You have {activeTaskCount} active {activeTaskCount === 1 ? "task" : "tasks"}
           </p>
         </section>
 
         {/* Quick actions section */}
         {/* + New Task, + New Note, + New Workspace, + Start Whiteboard */}
         <section className="flex gap-8">
-          <DashboardButton text="New Task" to="/workspace/task/new" />
+          <DashboardButton text="New Task" to="/tasks/new" />
           <DashboardButton text="New Note" to="/notes/new" />
           <DashboardButton text="New Workspace" to="/workspace/new" />
         </section>
@@ -45,7 +48,7 @@ export default function Dashboard() {
             <p className="font-inter py-6 font-bold text-lg">My Task</p>
           </div>
           <div className="w-full grid grid-cols-4 gap-4">
-            {fakeAllTasks.map((task) => {
+            {tasksQuery.data?.slice(0, 4).map((task) => {
               return <TaskCard key={task.id} task={task} />;
             })}
           </div>
