@@ -1,195 +1,95 @@
-# 🚀 KaraySuchi
+# Karay Suchi — Frontend
 
-> **A modern collaborative workspace for managing tasks, notes, and teams.**
+Karay Suchi is a full-stack productivity application for organizing tasks and notes within personal or collaborative workspaces. This frontend showcases a clean, responsive interface backed by protected APIs, role-based workspace access, and persistent authentication.
 
-KaraySuchi is a full-stack productivity platform built to simplify personal and team collaboration. It combines task management, note taking, workspace organization, and an interactive whiteboard into one clean and responsive application.
+## Live demo
 
-Designed with scalability, modern UI, and real-world architecture in mind, KaraySuchi demonstrates production-level full-stack development using React, Node.js, Express, MongoDB, and Docker.
+The hosted application is available at [karaysuchi.razsoft.in](https://karaysuchi.razsoft.in/).
 
----
+Use the shared demo account to explore the interface and working features without creating an account:
 
-Live link : https://karaysuchi.razsoft.in
+- **User ID:** `test@example.com`
+- **Password:** `Test@1234`
 
-## ✨ Features
+The account is intentionally provided for recruiters, evaluators, and anyone interested in reviewing the project. Because it is shared, its data may be changed by other visitors.
 
-### 👥 Workspace Management
+## Key features
 
-- Create multiple workspaces
-- Invite and manage members
-- Role-based workspace organization
-- Clean dashboard overview
+- Secure registration, login, logout, and automatic access-token renewal
+- Personal default workspace created during registration
+- Workspace creation, viewing, editing, and deletion
+- Workspace member management with Owner, Editor, and Viewer access levels
+- Workspace-scoped task creation, editing, status tracking, and deletion
+- Task workflow from To Do to In Progress and Completed
+- Workspace-scoped notes with full create, read, update, and delete support
+- Dashboard summaries, recent content, filters, and empty states
+- Responsive layouts and clear feedback for loading and error states
 
-### ✅ Task Management
+## Frontend stack
 
-- Create, edit and delete tasks
-- Organize tasks by status
-- Due dates
-- Task priorities
-- Search and filtering
-- Responsive task board
-
-### 📝 Notes
-
-- Rich note management
-- Organize notes inside workspaces
-- Quick editing
-- Persistent storage
-
-### 🔐 Authentication
-
-- Secure JWT Authentication
-- Login & Registration
-- Protected routes
-- Password hashing
-
-### 📱 Responsive Design
-
-- Mobile friendly
-- Tablet support
-- Desktop optimized
-- Modern UI/UX
-
----
-
-# 🛠 Tech Stack
-
-## Frontend
-
-- React.js
-- React Router
-- Tailwind CSS
+- React 19 and TypeScript
 - Vite
+- React Router
+- TanStack Query for server-state management and caching
+- Zustand for client-side state
+- Tailwind CSS
+- Zod for validation
+- Lucide React and React Hot Toast
 
-## Backend
+## Getting started
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- Bcrypt
+### Prerequisites
 
-## DevOps
+- Node.js 20 or later
+- npm
+- The Karay Suchi backend running locally
 
-- Docker
-- Docker Compose
-- Nginx
-- GitHub Actions
+### Installation
 
----
+1. Install the dependencies:
 
----
+   ```bash
+   npm install
+   ```
 
-# 🚀 Getting Started
+2. Create a `.env` file in the frontend root:
 
-## Clone Repository
+   ```env
+   VITE_API_BASE_URL=http://localhost:8000/api/v1
+   ```
 
-```bash
-git clone https://github.com/razsoft123/karaysuchi.git
+3. Start the development server:
 
-cd karaysuchi
+   ```bash
+   npm run dev
+   ```
+
+4. Open `http://localhost:5173` in your browser.
+
+### Available commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the local development server |
+| `npm run build` | Type-check and create a production build |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview the production build locally |
+
+## Project structure
+
+```text
+src/
+├── components/   Reusable interface components
+├── pages/        Route-level application screens
+├── queries/      TanStack Query hooks and cache logic
+├── services/     Backend API integrations
+├── store/        Client-side state
+└── utils/        Shared types, validation, and helpers
 ```
 
----
+## Author
 
-## Frontend
+Built by **Rohit Kumar** as a full-stack portfolio project.
 
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
----
-
----
-
----
-
-# 🔑 Environment Variables
-
-### Frontend
-
-```env
-VITE_API_URL=http://localhost:8000
-```
-
----
-
----
-
-# 📈 Future Improvements
-
-- Real-time collaboration
-- File attachments
-- Notifications
-- Calendar integration
-- Activity timeline
-- Workspace analytics
-- Dark mode
-- Drag & Drop task management
-
----
-
-# 🧪 Development Goals
-
-This project was built to practice and demonstrate:
-
-- Full Stack Development
-- REST API Design
-- Authentication & Authorization
-- MongoDB Data Modeling
-- Docker Deployment
-- Nginx Reverse Proxy
-- Responsive UI Design
-- Production-ready Project Structure
-
----
-
-# 🤝 Contributing
-
-Contributions, suggestions, and improvements are welcome.
-
-1. Fork the repository
-2. Create your feature branch
-
-```bash
-git checkout -b feature/new-feature
-```
-
-3. Commit your changes
-
-```bash
-git commit -m "Add new feature"
-```
-
-4. Push your branch
-
-```bash
-git push origin feature/new-feature
-```
-
-5. Open a Pull Request
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-# 👨‍💻 Author
-
-**Rohit Kumar**
-
-Full Stack Developer
-
-- GitHub: https://github.com/RazSoft123
-- LinkedIn: https://www.linkedin.com/in/rohit-raz-webdev
-
----
-
-⭐ If you found this project useful, consider giving it a star on GitHub.
+- [GitHub](https://github.com/RazSoft123)
+- [LinkedIn](https://www.linkedin.com/in/rohit-raz-webdev)
