@@ -2,14 +2,16 @@ import TaskCard from "../../components/task/TaskCard";
 import DashboardButton from "../../components/common/DashboardButton";
 import ImportantInfoCard from "../../components/common/ImportantInfoCard";
 
-import { fakeUser } from "../../fakeData";
 import NoteCard from "../../components/notes/NoteCard";
 import WorkspaceCard from "../../components/workspace/WorkspaceCard";
 import { useNotesQuery } from "../../queries/noteQueries";
 import { useTasksQuery } from "../../queries/taskQueries";
 import { useWorkspacesQuery } from "../../queries/workspaceQueries";
+import { useAuthStore } from "../../store/authStore";
+import EmptySection from "../../components/dashboard/EmptySection";
 
 export default function Dashboard() {
+  const user = useAuthStore((state) => state.user);
   const notesQuery = useNotesQuery();
   const tasksQuery = useTasksQuery();
   const workspacesQuery = useWorkspacesQuery();
@@ -21,7 +23,7 @@ export default function Dashboard() {
       <div className="flex flex-col gap-6">
         <section>
           <h1 className="font-inter text-2xl font-semibold">
-            Good Morning, {fakeUser.name}
+            Good Morning, {user?.name ?? "there"}
           </h1>
           <p className="font-inter text-sm text-slate-600">
             You have {activeTaskCount} active {activeTaskCount === 1 ? "task" : "tasks"}
@@ -49,11 +51,29 @@ export default function Dashboard() {
           <div>
             <p className="font-inter py-6 font-bold text-lg">My Task</p>
           </div>
-          <div className="w-full grid grid-cols-4 gap-4">
-            {tasksQuery.data?.slice(0, 4).map((task) => {
-              return <TaskCard key={task.id} task={task} />;
-            })}
-          </div>
+          {tasksQuery.isLoading && (
+            <p className="text-sm text-slate-600">Loading tasks...</p>
+          )}
+          {tasksQuery.isError && (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              {tasksQuery.error.message}
+            </div>
+          )}
+          {tasksQuery.isSuccess && tasksQuery.data.length === 0 && (
+            <EmptySection
+              title="No tasks here"
+              message="Create your first task to start working."
+              actionLabel="Create task"
+              to="/tasks/new"
+            />
+          )}
+          {tasksQuery.isSuccess && tasksQuery.data.length > 0 && (
+            <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              {tasksQuery.data.slice(0, 4).map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Recent Notes */}
@@ -62,11 +82,29 @@ export default function Dashboard() {
           <div>
             <p className="font-inter py-6 font-bold text-lg">Recent Notes</p>
           </div>
-          <div className="w-full grid grid-cols-4 gap-4">
-            {notesQuery.data?.slice(0, 4).map((note) => (
-              <NoteCard key={note.id} note={note} />
-            ))}
-          </div>
+          {notesQuery.isLoading && (
+            <p className="text-sm text-slate-600">Loading notes...</p>
+          )}
+          {notesQuery.isError && (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              {notesQuery.error.message}
+            </div>
+          )}
+          {notesQuery.isSuccess && notesQuery.data.length === 0 && (
+            <EmptySection
+              title="No notes here"
+              message="Create your first note to start capturing your work."
+              actionLabel="Create note"
+              to="/notes/new"
+            />
+          )}
+          {notesQuery.isSuccess && notesQuery.data.length > 0 && (
+            <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              {notesQuery.data.slice(0, 4).map((note) => (
+                <NoteCard key={note.id} note={note} />
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Recent Workspaces */}
