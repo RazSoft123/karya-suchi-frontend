@@ -1,4 +1,4 @@
-import { ArrowRight, FilePlus2, ListPlus } from "lucide-react";
+import { ArrowRight, ListTodo, NotebookText } from "lucide-react";
 import { NavLink } from "react-router";
 import type { Workspace } from "../../utils/types";
 
@@ -38,22 +38,14 @@ export default function WorkspaceCard({ workspace }: { workspace: Workspace }) {
       </div>
 
       <div className="pointer-events-none relative z-10 flex flex-wrap gap-2 bg-gray-100 px-4 py-4">
-        {workspace.canEdit !== false && (
-          <>
-            <NavLink
-              to={`/notes/new?workspace=${workspace.id}`}
-              className="pointer-events-auto flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-sm font-semibold"
-            >
-              <FilePlus2 size={15} /> Note
-            </NavLink>
-            <NavLink
-              to={`/tasks/new?workspace=${workspace.id}`}
-              className="pointer-events-auto flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-sm font-semibold"
-            >
-              <ListPlus size={15} /> Task
-            </NavLink>
-          </>
-        )}
+        <span className="flex items-center gap-1.5 rounded-md bg-white px-2 py-1 text-sm font-semibold text-slate-600">
+          <ListTodo size={15} /> {workspace.openTaskCount ?? 0}{" "}
+          {(workspace.openTaskCount ?? 0) === 1 ? "task due" : "tasks due"}
+        </span>
+        <span className="flex items-center gap-1.5 rounded-md bg-white px-2 py-1 text-sm font-semibold text-slate-600">
+          <NotebookText size={15} /> {workspace.noteCount ?? 0}{" "}
+          {(workspace.noteCount ?? 0) === 1 ? "note" : "notes"}
+        </span>
         <NavLink
           to={`/workspace/${workspace.id}`}
           className="pointer-events-auto ml-auto flex items-center gap-1 rounded-md bg-black px-2 py-1 text-sm font-semibold text-white"

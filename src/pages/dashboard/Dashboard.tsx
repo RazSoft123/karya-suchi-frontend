@@ -1,6 +1,5 @@
 import TaskCard from "../../components/task/TaskCard";
 import DashboardButton from "../../components/common/DashboardButton";
-import ImportantInfoCard from "../../components/common/ImportantInfoCard";
 
 import NoteCard from "../../components/notes/NoteCard";
 import WorkspaceCard from "../../components/workspace/WorkspaceCard";
@@ -36,13 +35,6 @@ export default function Dashboard() {
           <DashboardButton text="New Task" to="/tasks/new" />
           <DashboardButton text="New Note" to="/notes/new" />
           <DashboardButton text="New Workspace" to="/workspace/new" />
-        </section>
-
-        {/* Important information section */}
-        <section className="flex gap-8">
-          <ImportantInfoCard />
-          <ImportantInfoCard />
-          <ImportantInfoCard />
         </section>
 
         {/* Today's task section */}

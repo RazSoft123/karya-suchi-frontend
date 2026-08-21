@@ -38,6 +38,8 @@ interface Workspace {
   canManage?: boolean;
   canEdit?: boolean;
   isDefault?: boolean;
+  openTaskCount?: number;
+  noteCount?: number;
   createdAt?: string;
   updatedAt?: string;
 }

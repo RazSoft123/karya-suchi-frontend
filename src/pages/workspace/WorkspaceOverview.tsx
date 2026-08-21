@@ -1,4 +1,4 @@
-import { FilePlus2, ListPlus, Settings2 } from "lucide-react";
+import { ArrowLeft, FilePlus2, ListPlus, Settings2 } from "lucide-react";
 import { NavLink, useParams } from "react-router";
 import EmptySection from "../../components/dashboard/EmptySection";
 import NoteCard from "../../components/notes/NoteCard";
@@ -58,8 +58,11 @@ export default function WorkspaceOverview() {
               </p>
             </div>
 
-            <NavLink to="/workspace" className="text-sm font-semibold underline">
-              Back to workspaces
+            <NavLink
+              to="/workspace"
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-black"
+            >
+              <ArrowLeft size={17} /> All workspaces
             </NavLink>
           </div>
 
