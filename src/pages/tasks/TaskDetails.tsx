@@ -51,7 +51,10 @@ function TaskEditor({ task }: { task: Task }) {
         workspaceId,
       },
       {
-        onSuccess: () => toast.success("Task saved"),
+        onSuccess: () => {
+          toast.success("Task saved");
+          navigate(`/tasks/${task.id}`, { replace: true });
+        },
         onError: (error) => toast.error(error.message),
       },
     );
@@ -186,7 +189,7 @@ function TaskEditor({ task }: { task: Task }) {
 
         <div className="flex gap-3">
           <NavLink
-            to="/tasks"
+            to={`/tasks/${task.id}`}
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold"
           >
             Back
@@ -211,11 +214,19 @@ export default function TaskDetails() {
   return (
     <main className="font-inter max-h-dvh overflow-auto px-4 py-4">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-6">
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+          <div>
           <h1 className="text-2xl font-semibold">Edit task</h1>
           <p className="text-sm text-slate-600">
             Edit, complete, move, archive, or delete this task.
           </p>
+          </div>
+          <NavLink
+            to={`/tasks/${taskId}`}
+            className="text-sm font-semibold underline"
+          >
+            Back to task
+          </NavLink>
         </div>
 
         {taskQuery.isLoading && <p>Loading task...</p>}
