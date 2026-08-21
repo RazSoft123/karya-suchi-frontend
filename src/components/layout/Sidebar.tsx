@@ -39,7 +39,7 @@ export default function Sidebar() {
             text="Workspace"
             to="/workspace"
             icon={Grid2x2Plus}
-            active={location.pathname === "/workspace"}
+            active={location.pathname.startsWith("/workspace")}
           />
         </ul>
       </div>

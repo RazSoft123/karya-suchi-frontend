@@ -1,13 +1,16 @@
 import { useState, type FormEvent } from "react";
 import toast from "react-hot-toast";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink, useNavigate, useSearchParams } from "react-router";
 import { useCreateNoteMutation } from "../../../queries/noteQueries";
 import { useWorkspacesQuery } from "../../../queries/workspaceQueries";
 
 export default function NewNote() {
+  const [searchParams] = useSearchParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [workspaceId, setWorkspaceId] = useState("");
+  const [workspaceId, setWorkspaceId] = useState(
+    searchParams.get("workspace") ?? "",
+  );
   const navigate = useNavigate();
   const workspacesQuery = useWorkspacesQuery();
   const createMutation = useCreateNoteMutation();

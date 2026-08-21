@@ -12,6 +12,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedLayouts from "./components/layout/ProtectedLayout";
 import Workspace from "./pages/workspace/Workspace";
 import NewWorkspace from "./pages/workspace/NewWorkspace";
+import WorkspaceDetails from "./pages/workspace/WorkspaceDetails";
 import FeauresPage from "./pages/FeaturesPage";
 import HelpPage from "./pages/HelpPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
           { path: "notes/:noteId", Component: NoteDetails },
           { path: "workspace", Component: Workspace },
           { path: "workspace/new", Component: NewWorkspace },
+          { path: "workspace/:workspaceId", Component: WorkspaceDetails },
         ],
       },
     ],

@@ -7,10 +7,12 @@ import NoteCard from "../../components/notes/NoteCard";
 import WorkspaceCard from "../../components/workspace/WorkspaceCard";
 import { useNotesQuery } from "../../queries/noteQueries";
 import { useTasksQuery } from "../../queries/taskQueries";
+import { useWorkspacesQuery } from "../../queries/workspaceQueries";
 
 export default function Dashboard() {
   const notesQuery = useNotesQuery();
   const tasksQuery = useTasksQuery();
+  const workspacesQuery = useWorkspacesQuery();
   const activeTaskCount =
     tasksQuery.data?.filter((task) => task.status !== "completed").length ?? 0;
 
@@ -76,8 +78,8 @@ export default function Dashboard() {
             </p>
           </div>
           <div className="w-full grid grid-cols-4 gap-4">
-            {[1, 2, 3].map((workspaceId) => (
-              <WorkspaceCard key={workspaceId} />
+            {workspacesQuery.data?.slice(0, 3).map((workspace) => (
+              <WorkspaceCard key={workspace.id} workspace={workspace} />
             ))}
           </div>
         </section>

@@ -33,6 +33,13 @@ interface Workspace {
   id: string;
   name: string;
   description?: string;
+  ownerId?: string;
+  isOwner?: boolean;
+  canManage?: boolean;
+  canEdit?: boolean;
+  isDefault?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Note {
