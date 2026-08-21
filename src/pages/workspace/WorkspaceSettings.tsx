@@ -8,7 +8,7 @@ import {
 } from "../../queries/workspaceQueries";
 import type { Workspace } from "../../utils/types";
 
-function WorkspaceEditor({ workspace }: { workspace: Workspace }) {
+function WorkspaceSettingsForm({ workspace }: { workspace: Workspace }) {
   const [name, setName] = useState(workspace.name);
   const [description, setDescription] = useState(workspace.description ?? "");
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function WorkspaceEditor({ workspace }: { workspace: Workspace }) {
 
   function handleDelete() {
     const confirmed = window.confirm(
-      `Delete “${workspace.name}”? Its notes and tasks will no longer be accessible.`,
+      `Delete "${workspace.name}"? Its notes and tasks will no longer be accessible.`,
     );
     if (!confirmed) return;
 
@@ -54,46 +54,15 @@ function WorkspaceEditor({ workspace }: { workspace: Workspace }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="flex flex-wrap items-center gap-3 rounded-xl border border-app-border bg-white p-5">
-        <div className="mr-auto">
-          <h2 className="font-semibold">Add content</h2>
-          <p className="text-sm text-slate-600">
-            New items will be created in {workspace.name}.
-          </p>
-        </div>
-        {workspace.canEdit !== false ? (
-          <>
-            <NavLink
-              to={`/notes/new?workspace=${workspace.id}`}
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold"
-            >
-              New note
-            </NavLink>
-            <NavLink
-              to={`/tasks/new?workspace=${workspace.id}`}
-              className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white"
-            >
-              New task
-            </NavLink>
-          </>
-        ) : (
-          <span className="text-sm text-slate-500">This workspace is read-only.</span>
-        )}
-      </section>
-
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-5 rounded-xl border border-app-border bg-white p-6"
       >
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold">Workspace settings</h2>
+            <h2 className="text-lg font-semibold">General settings</h2>
             <p className="text-sm text-slate-600">
-              {workspace.isDefault
-                ? "This is your default workspace."
-                : workspace.isOwner
-                  ? "You own this workspace."
-                  : "This workspace was shared with you."}
+              Update the workspace name and description.
             </p>
           </div>
           {workspace.isDefault && (
@@ -113,8 +82,7 @@ function WorkspaceEditor({ workspace }: { workspace: Workspace }) {
             onChange={(event) => setName(event.target.value)}
             minLength={3}
             maxLength={100}
-            disabled={!workspace.canManage}
-            className="rounded-md border border-slate-300 px-3 py-2 disabled:bg-slate-100"
+            className="rounded-md border border-slate-300 px-3 py-2"
             required
           />
         </div>
@@ -132,22 +100,19 @@ function WorkspaceEditor({ workspace }: { workspace: Workspace }) {
             onChange={(event) => setDescription(event.target.value)}
             rows={6}
             maxLength={2000}
-            disabled={!workspace.canManage}
-            className="resize-y rounded-md border border-slate-300 px-3 py-2 disabled:bg-slate-100"
+            className="resize-y rounded-md border border-slate-300 px-3 py-2"
           />
         </div>
 
-        {workspace.canManage && (
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={updateMutation.isPending}
-              className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {updateMutation.isPending ? "Saving..." : "Save changes"}
-            </button>
-          </div>
-        )}
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={updateMutation.isPending}
+            className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {updateMutation.isPending ? "Saving..." : "Save changes"}
+          </button>
+        </div>
       </form>
 
       {workspace.isOwner && (
@@ -172,12 +137,12 @@ function WorkspaceEditor({ workspace }: { workspace: Workspace }) {
   );
 }
 
-export default function WorkspaceDetails() {
+export default function WorkspaceSettings() {
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const workspaceQuery = useWorkspaceQuery(workspaceId);
 
   if (workspaceQuery.isLoading) {
-    return <main className="p-6 text-sm text-slate-600">Loading workspace...</main>;
+    return <main className="p-6 text-sm text-slate-600">Loading settings...</main>;
   }
 
   if (workspaceQuery.isError || !workspaceQuery.data) {
@@ -186,7 +151,10 @@ export default function WorkspaceDetails() {
         <p className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           {workspaceQuery.error?.message ?? "Workspace not found"}
         </p>
-        <NavLink to="/workspace" className="mt-4 inline-block text-sm font-semibold underline">
+        <NavLink
+          to="/workspace"
+          className="mt-4 inline-block text-sm font-semibold underline"
+        >
           Back to workspaces
         </NavLink>
       </main>
@@ -195,20 +163,39 @@ export default function WorkspaceDetails() {
 
   const workspace = workspaceQuery.data;
 
+  if (!workspace.canManage) {
+    return (
+      <main className="p-6">
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          You do not have permission to change this workspace's settings.
+        </div>
+        <NavLink
+          to={`/workspace/${workspace.id}`}
+          className="mt-4 inline-block text-sm font-semibold underline"
+        >
+          Back to workspace
+        </NavLink>
+      </main>
+    );
+  }
+
   return (
     <main className="font-inter max-h-dvh overflow-auto px-4 py-4">
       <div className="mx-auto max-w-3xl">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold">{workspace.name}</h1>
-            <p className="text-sm text-slate-600">Manage this workspace and its content.</p>
+            <h1 className="text-2xl font-semibold">Workspace settings</h1>
+            <p className="text-sm text-slate-600">Manage {workspace.name}.</p>
           </div>
-          <NavLink to="/workspace" className="text-sm font-semibold underline">
-            Back to workspaces
+          <NavLink
+            to={`/workspace/${workspace.id}`}
+            className="text-sm font-semibold underline"
+          >
+            Back to workspace
           </NavLink>
         </div>
 
-        <WorkspaceEditor
+        <WorkspaceSettingsForm
           key={`${workspace.id}-${workspace.updatedAt ?? ""}`}
           workspace={workspace}
         />

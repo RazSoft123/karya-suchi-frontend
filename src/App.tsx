@@ -12,12 +12,13 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedLayouts from "./components/layout/ProtectedLayout";
 import Workspace from "./pages/workspace/Workspace";
 import NewWorkspace from "./pages/workspace/NewWorkspace";
-import WorkspaceDetails from "./pages/workspace/WorkspaceDetails";
+import WorkspaceOverview from "./pages/workspace/WorkspaceOverview";
+import WorkspaceSettings from "./pages/workspace/WorkspaceSettings";
 import FeauresPage from "./pages/FeaturesPage";
 import HelpPage from "./pages/HelpPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Notes from "./pages/notes/Notes";
-import NoteDetails from "./pages/notes/NoteDetails";
+import NoteView from "./pages/notes/NoteView";
 import NewNote from "./pages/workspace/notes/NewNote";
 import Tasks from "./pages/tasks/Tasks";
 import NewTask from "./pages/workspace/tasks/NewTask";
@@ -59,10 +60,14 @@ const router = createBrowserRouter([
           { path: "tasks/:taskId", Component: TaskDetails },
           { path: "notes", Component: Notes },
           { path: "notes/new", Component: NewNote },
-          { path: "notes/:noteId", Component: NoteDetails },
+          { path: "notes/:noteId", Component: NoteView },
           { path: "workspace", Component: Workspace },
           { path: "workspace/new", Component: NewWorkspace },
-          { path: "workspace/:workspaceId", Component: WorkspaceDetails },
+          {
+            path: "workspace/:workspaceId/settings",
+            Component: WorkspaceSettings,
+          },
+          { path: "workspace/:workspaceId", Component: WorkspaceOverview },
           { path: "profile", Component: Profile },
           { path: "settings", Component: Settings },
         ],

@@ -1,11 +1,16 @@
-import { FilePlus2, ListPlus, Settings2 } from "lucide-react";
+import { ArrowRight, FilePlus2, ListPlus } from "lucide-react";
 import { NavLink } from "react-router";
 import type { Workspace } from "../../utils/types";
 
 export default function WorkspaceCard({ workspace }: { workspace: Workspace }) {
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-xl border border-app-border bg-white">
-      <div className="flex flex-1 flex-col gap-5 px-6 py-6">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-app-border bg-white">
+      <NavLink
+        to={`/workspace/${workspace.id}`}
+        aria-label={`View ${workspace.name} workspace`}
+        className="absolute inset-0 z-0 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-inset"
+      />
+      <div className="pointer-events-none relative z-[1] flex flex-1 flex-col gap-5 px-6 py-6 transition group-hover:bg-slate-50">
         <div className="flex items-start justify-between gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-black">
             <span className="font-inter text-2xl font-semibold text-white">
@@ -32,18 +37,18 @@ export default function WorkspaceCard({ workspace }: { workspace: Workspace }) {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 bg-gray-100 px-4 py-4">
+      <div className="pointer-events-none relative z-10 flex flex-wrap gap-2 bg-gray-100 px-4 py-4">
         {workspace.canEdit !== false && (
           <>
             <NavLink
               to={`/notes/new?workspace=${workspace.id}`}
-              className="flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-sm font-semibold"
+              className="pointer-events-auto flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-sm font-semibold"
             >
               <FilePlus2 size={15} /> Note
             </NavLink>
             <NavLink
               to={`/tasks/new?workspace=${workspace.id}`}
-              className="flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-sm font-semibold"
+              className="pointer-events-auto flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-sm font-semibold"
             >
               <ListPlus size={15} /> Task
             </NavLink>
@@ -51,9 +56,9 @@ export default function WorkspaceCard({ workspace }: { workspace: Workspace }) {
         )}
         <NavLink
           to={`/workspace/${workspace.id}`}
-          className="ml-auto flex items-center gap-1 rounded-md bg-black px-2 py-1 text-sm font-semibold text-white"
+          className="pointer-events-auto ml-auto flex items-center gap-1 rounded-md bg-black px-2 py-1 text-sm font-semibold text-white"
         >
-          <Settings2 size={15} /> {workspace.canManage ? "Manage" : "Open"}
+          View workspace <ArrowRight size={15} />
         </NavLink>
       </div>
     </article>
