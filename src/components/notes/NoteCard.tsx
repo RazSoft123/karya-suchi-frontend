@@ -2,6 +2,19 @@ import { NavLink } from "react-router";
 import type { Note } from "../../utils/types";
 import { ArrowUpRight, Layers } from "lucide-react";
 
+const MAX_PREVIEW_LENGTH = 100;
+
+function notePreview(content?: string) {
+  const normalizedContent = content?.trim().replace(/\s+/g, " ") ?? "";
+
+  if (!normalizedContent) return "This note does not have any content yet.";
+  if (normalizedContent.length <= MAX_PREVIEW_LENGTH) return normalizedContent;
+
+  return `${normalizedContent
+    .slice(0, MAX_PREVIEW_LENGTH - 1)
+    .trimEnd()}…`;
+}
+
 export default function NoteCard({ note }: { note: Note }) {
   const workspaceName =
     typeof note.workspace === "string"
@@ -26,8 +39,8 @@ export default function NoteCard({ note }: { note: Note }) {
 
         <div className="font-inter flex flex-col gap-3">
           <h3 className="font-inter text-lg font-semibold">{note.title}</h3>
-          <p className="font-inter text-body whitespace-pre-wrap break-words text-slate-600">
-            {note.content?.trim() || "This note does not have any content yet."}
+          <p className="font-inter text-body break-words text-slate-600">
+            {notePreview(note.content)}
           </p>
         </div>
 
