@@ -1,4 +1,5 @@
 import apiClient from "./apiClient";
+import type { User } from "../utils/types";
 
 interface AuthResponse {
   status: string;
@@ -26,6 +27,7 @@ async function login(email: string, password: string) {
       email,
       password,
     }),
+    skipAuthRefresh: true,
   });
 }
 
@@ -33,19 +35,35 @@ async function register(name: string, email: string, password: string) {
   return await apiClient<AuthResponse>("/register", {
     method: "POST",
     body: JSON.stringify({ name, email, password }),
+    skipAuthRefresh: true,
   });
 }
 
 async function logout() {
   await apiClient<void>("/logout", {
     method: "POST",
+    skipAuthRefresh: true,
   });
+}
+
+async function getCurrentUser(): Promise<User> {
+  const response = await apiClient<AuthResponse>("/user");
+  const id = response.data.id ?? response.data._id;
+
+  if (!id) throw new Error("The server response did not include a user id");
+
+  return {
+    id,
+    name: response.data.name,
+    email: response.data.email,
+  };
 }
 
 async function forgetPassword(email: string) {
   return await apiClient<MessageResponse>("/forget-password", {
     method: "POST",
     body: JSON.stringify({ email }),
+    skipAuthRefresh: true,
   });
 }
 
@@ -65,8 +83,16 @@ async function resetPassword(
     headers: {
       "password-reset-token": token,
     },
+    skipAuthRefresh: true,
   });
 }
 
-export { login, register, logout, forgetPassword, resetPassword };
+export {
+  login,
+  register,
+  logout,
+  getCurrentUser,
+  forgetPassword,
+  resetPassword,
+};
 export type { AuthResponse };
