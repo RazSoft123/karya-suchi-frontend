@@ -4,7 +4,6 @@ import { useLocation } from "react-router";
 import { ListTodo, House, NotebookPen, Grid2x2Plus } from "lucide-react";
 
 import logo from "./../../assets/img/ks-logo-128.png";
-import avatar from "./../../assets/img/panda.png";
 
 export default function Sidebar() {
   const location = useLocation();
@@ -43,7 +42,7 @@ export default function Sidebar() {
           />
         </ul>
       </div>
-      <SidebarProfile avatar={avatar} />
+      <SidebarProfile />
     </div>
   );
 }

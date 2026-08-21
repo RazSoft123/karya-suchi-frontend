@@ -36,6 +36,12 @@ async function register(name: string, email: string, password: string) {
   });
 }
 
+async function logout() {
+  await apiClient<void>("/logout", {
+    method: "POST",
+  });
+}
+
 async function forgetPassword(email: string) {
   return await apiClient<MessageResponse>("/forget-password", {
     method: "POST",
@@ -62,5 +68,5 @@ async function resetPassword(
   });
 }
 
-export { login, register, forgetPassword, resetPassword };
+export { login, register, logout, forgetPassword, resetPassword };
 export type { AuthResponse };

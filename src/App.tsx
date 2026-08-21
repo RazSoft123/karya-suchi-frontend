@@ -22,6 +22,8 @@ import NewNote from "./pages/workspace/notes/NewNote";
 import Tasks from "./pages/tasks/Tasks";
 import NewTask from "./pages/workspace/tasks/NewTask";
 import TaskDetails from "./pages/tasks/TaskDetails";
+import Profile from "./pages/profile/Profile";
+import Settings from "./pages/settings/Settings";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,6 +63,8 @@ const router = createBrowserRouter([
           { path: "workspace", Component: Workspace },
           { path: "workspace/new", Component: NewWorkspace },
           { path: "workspace/:workspaceId", Component: WorkspaceDetails },
+          { path: "profile", Component: Profile },
+          { path: "settings", Component: Settings },
         ],
       },
     ],
