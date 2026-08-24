@@ -7,6 +7,7 @@ import {
   useWorkspaceQuery,
 } from "../../queries/workspaceQueries";
 import type { Workspace } from "../../utils/types";
+import WorkspaceMembers from "../../components/workspace/WorkspaceMembers";
 
 function WorkspaceSettingsForm({ workspace }: { workspace: Workspace }) {
   const [name, setName] = useState(workspace.name);
@@ -114,6 +115,8 @@ function WorkspaceSettingsForm({ workspace }: { workspace: Workspace }) {
           </button>
         </div>
       </form>
+
+      <WorkspaceMembers workspace={workspace} />
 
       {workspace.isOwner && (
         <section className="rounded-xl border border-red-200 bg-white p-6">

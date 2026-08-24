@@ -44,6 +44,20 @@ interface Workspace {
   updatedAt?: string;
 }
 
+type WorkspaceMemberAccess = "view" | "edit";
+
+interface WorkspaceMember {
+  id: string;
+  userId: string;
+  name: string;
+  email: string;
+  role: "owner" | "admin" | "member";
+  access: WorkspaceMemberAccess;
+  isOwner: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 interface Note {
   id: string;
   title: string;
@@ -53,4 +67,13 @@ interface Note {
   workspace?: Workspace | string;
 }
 
-export type { User, AuthState, TaskStatus, Task, Workspace, Note };
+export type {
+  User,
+  AuthState,
+  TaskStatus,
+  Task,
+  Workspace,
+  WorkspaceMemberAccess,
+  WorkspaceMember,
+  Note,
+};
